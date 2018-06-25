@@ -16,9 +16,7 @@ class FancyTreeModule(AbstractModule):
 
     def __init__(self):
         AbstractModule.__init__(self,
-                                scripts=['core_explore_keyword_registry_app/user/js/search/fancytree.custom.js',
-                                         'core_module_fancy_tree_registry_app/js/fancy_tree.js'],
-                                styles=['core_explore_keyword_registry_app/user/css/fancytree/fancytree.custom.css'])
+                                scripts=['core_module_fancy_tree_registry_app/js/fancy_tree.js'])
 
     def _render_module(self, request):
         # get the xml path of the element on which the module is placed
@@ -74,7 +72,7 @@ class FancyTreeModule(AbstractModule):
 
                 return AbstractModule.render_template('core_module_fancy_tree_registry_app/fancy_tree.html',
                                                       {'form': RefinementForm(refinement=refinement,
-                                                                          data=reload_form_data)})
+                                                                              data=reload_form_data)})
             except Exception, e:
                 raise ModuleError("Something went wrong when rendering the module: " + e.message)
         else:
