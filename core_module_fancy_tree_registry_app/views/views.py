@@ -58,12 +58,13 @@ class FancyTreeModule(AbstractModule):
                     # Iterate xml elements
                     for reload_data_element in list(reload_data):
                         try:
-                            # The xml element to be reloaded is the child element
-                            child = reload_data_element[0]
-                            # get its value
-                            selected_value = child.text
-                            # find the corresponding category and add its id to the list
-                            reload_categories_id_list.append(categories.get(value=selected_value).id)
+                            if len(reload_data_element) > 0:
+                                # The xml element to be reloaded is the child element
+                                child = reload_data_element[0]
+                                # get its value
+                                selected_value = child.text
+                                # find the corresponding category and add its id to the list
+                                reload_categories_id_list.append(categories.get(value=selected_value).id)
                         except Exception, e:
                             raise ModuleError("Something went wrong when reloading data from XML." + e.message)
 
