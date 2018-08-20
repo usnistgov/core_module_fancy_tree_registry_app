@@ -11,11 +11,12 @@ class RefinementForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         refinement = kwargs.pop('refinement', None)
+        field_id = kwargs.pop('field_id', None)
         super(RefinementForm, self).__init__(*args, **kwargs)
-        if refinement:
+        if refinement and field_id:
             categories = category_api.get_all_filtered_by_refinement_id(refinement.id)
-            self.fields[refinement.xsd_name] = forms.ModelMultipleChoiceField(queryset=categories,
-                                                                              required=False,
-                                                                              label='',
-                                                                              widget=FancyTreeWidget(
-                                                                                  queryset=categories))
+            self.fields[field_id] = forms.ModelMultipleChoiceField(queryset=categories,
+                                                                   required=False,
+                                                                   label='',
+                                                                   widget=FancyTreeWidget(
+                                                                       queryset=categories))

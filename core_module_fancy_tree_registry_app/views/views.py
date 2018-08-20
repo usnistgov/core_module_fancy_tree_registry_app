@@ -1,5 +1,7 @@
 """ Fancy Tree module view
 """
+import re
+
 from core_main_registry_app.components.category import api as category_api
 from core_main_registry_app.components.refinement import api as refinement_api
 from core_main_registry_app.components.template import api as template_registry_api
@@ -24,6 +26,8 @@ class FancyTreeModule(AbstractModule):
         # xml path is provided
         if xml_xpath is not None:
             try:
+                # create unique field id from xpath
+                field_id = re.sub('[/.:\[\]]', '', xml_xpath)
                 # split the xpath
                 split_xml_xpath = xml_xpath.split('/')
                 # get the last element of the xpath
@@ -48,7 +52,7 @@ class FancyTreeModule(AbstractModule):
                 # data to reload were provided
                 if self.data != '':
                     # build filed for the refinement form for the current xml element
-                    refinement_form_field = "{0}-{1}".format(RefinementForm.prefix, xml_element)
+                    refinement_form_field = "{0}-{1}".format(RefinementForm.prefix, field_id)
                     # get the categories for the current refinement
                     categories = category_api.get_all_filtered_by_refinement_id(refinement.id)
                     # Initialize list of categories id
@@ -73,6 +77,7 @@ class FancyTreeModule(AbstractModule):
 
                 return AbstractModule.render_template('core_module_fancy_tree_registry_app/fancy_tree.html',
                                                       {'form': RefinementForm(refinement=refinement,
+                                                                              field_id=field_id,
                                                                               data=reload_form_data)})
             except Exception, e:
                 raise ModuleError("Something went wrong when rendering the module: " + e.message)
