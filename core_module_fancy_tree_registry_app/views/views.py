@@ -69,7 +69,7 @@ class FancyTreeModule(AbstractModule):
                                 selected_value = child.text
                                 # find the corresponding category and add its id to the list
                                 reload_categories_id_list.append(categories.get(value=selected_value).id)
-                        except Exception, e:
+                        except Exception as e:
                             raise ModuleError("Something went wrong when reloading data from XML." + e.message)
 
                     # set data to reload in the form
@@ -79,7 +79,7 @@ class FancyTreeModule(AbstractModule):
                                                       {'form': RefinementForm(refinement=refinement,
                                                                               field_id=field_id,
                                                                               data=reload_form_data)})
-            except Exception, e:
+            except Exception as e:
                 raise ModuleError("Something went wrong when rendering the module: " + e.message)
         else:
             raise ModuleError("xml_xpath was not found in request GET parameters.")
@@ -106,7 +106,7 @@ class FancyTreeModule(AbstractModule):
                             data += "<{0}><{1}>{2}</{1}></{0}>".format(split_category_path[-2],
                                                                        split_category_path[-1],
                                                                        category.value)
-                except Exception, e:
+                except Exception as e:
                     raise ModuleError('Something went wrong during the processing of posted data: ' + e.message)
 
         return data
