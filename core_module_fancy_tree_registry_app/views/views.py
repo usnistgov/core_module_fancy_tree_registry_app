@@ -5,12 +5,11 @@ import re
 from core_main_registry_app.components.category import api as category_api
 from core_main_registry_app.components.refinement import api as refinement_api
 from core_main_registry_app.components.template import api as template_registry_api
+from core_main_registry_app.constants import CATEGORY_SUFFIX
 from core_module_fancy_tree_registry_app.views.forms import RefinementForm
 from core_parser_app.tools.modules.exceptions import ModuleError
 from core_parser_app.tools.modules.views.module import AbstractModule
 from xml_utils.xsd_tree.xsd_tree import XSDTree
-
-CATEGORY_PREFIX = "_category"
 
 
 class FancyTreeModule(AbstractModule):
@@ -100,12 +99,12 @@ class FancyTreeModule(AbstractModule):
                     category_id_list = request.POST.getlist('data[]')
                     for category_id in category_id_list:
                         category = category_api.get_by_id(category_id)
-                        if not category.value.endswith(CATEGORY_PREFIX):
-                            split_category_path = category.path.split('.')
-
-                            data += "<{0}><{1}>{2}</{1}></{0}>".format(split_category_path[-2],
-                                                                       split_category_path[-1],
-                                                                       category.value)
+                        split_category_path = category.path.split('.')
+                        data += "<{0}><{1}>{2}</{1}></{0}>".format(split_category_path[-2],
+                                                                   split_category_path[-1],
+                                                                   category.value
+                                                                   if not category.value.endswith(CATEGORY_SUFFIX)
+                                                                   else category.value[:-len(CATEGORY_SUFFIX)])
                 except Exception as e:
                     raise ModuleError('Something went wrong during the processing of posted data: ' + str(e))
 
