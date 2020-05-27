@@ -8,18 +8,19 @@ from core_main_registry_app.utils.fancytree.widget import FancyTreeWidget
 
 
 class RefinementForm(forms.Form):
-    prefix = 'refinement'
+    prefix = "refinement"
 
     def __init__(self, *args, **kwargs):
-        refinement = kwargs.pop('refinement', None)
-        field_id = kwargs.pop('field_id', None)
+        refinement = kwargs.pop("refinement", None)
+        field_id = kwargs.pop("field_id", None)
         super(RefinementForm, self).__init__(*args, **kwargs)
         if refinement and field_id:
-            categories = category_api.get_all_filtered_by_refinement_id(refinement.id).\
-                exclude(name__startswith=UNSPECIFIED_LABEL)
-            self.fields[field_id] = forms.ModelMultipleChoiceField(queryset=categories,
-                                                                   required=False,
-                                                                   label='',
-                                                                   widget=FancyTreeWidget(
-                                                                       queryset=categories,
-                                                                       select_mode=2))
+            categories = category_api.get_all_filtered_by_refinement_id(
+                refinement.id
+            ).exclude(name__startswith=UNSPECIFIED_LABEL)
+            self.fields[field_id] = forms.ModelMultipleChoiceField(
+                queryset=categories,
+                required=False,
+                label="",
+                widget=FancyTreeWidget(queryset=categories, select_mode=2),
+            )
