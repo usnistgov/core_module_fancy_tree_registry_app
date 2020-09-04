@@ -5,7 +5,7 @@ import re
 from core_main_registry_app.components.category import api as category_api
 from core_main_registry_app.components.refinement import api as refinement_api
 from core_main_registry_app.components.template import api as template_registry_api
-from core_main_registry_app.constants import CATEGORY_SUFFIX
+from core_main_registry_app.constants import CATEGORY_SUFFIX, UNSPECIFIED_LABEL
 from core_module_fancy_tree_registry_app.views.forms import RefinementForm
 from core_parser_app.tools.modules.exceptions import ModuleError
 from core_parser_app.tools.modules.views.module import AbstractModule
@@ -74,9 +74,14 @@ class FancyTreeModule(AbstractModule):
                                 # get its value
                                 selected_value = child.text
                                 # find the corresponding category and add its id to the list
-                                reload_categories_id_list.append(
-                                    categories.get(value=selected_value).id
-                                )
+                                category = categories.get(value=selected_value)
+                                # if the element is an unspecified element
+                                if category.slug.startswith(UNSPECIFIED_LABEL):
+                                    # get the parent category
+                                    selected_value += CATEGORY_SUFFIX
+                                    category = categories.get(value=selected_value)
+
+                                reload_categories_id_list.append(category.id)
                         except Exception as e:
                             raise ModuleError(
                                 "Something went wrong when reloading data from XML."

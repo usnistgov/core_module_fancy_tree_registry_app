@@ -15,6 +15,7 @@ class RefinementForm(forms.Form):
         field_id = kwargs.pop("field_id", None)
         super(RefinementForm, self).__init__(*args, **kwargs)
         if refinement and field_id:
+            # Get categories except unspecified (those should be selected by checking a parent node)
             categories = category_api.get_all_filtered_by_refinement_id(
                 refinement.id
             ).exclude(name__startswith=UNSPECIFIED_LABEL)
