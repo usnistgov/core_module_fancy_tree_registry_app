@@ -40,7 +40,9 @@ class FancyTreeModule(AbstractModule):
                     xml_element = split_xml_element[-1]
 
                 # get registry template
-                template = template_registry_api.get_current_registry_template()
+                template = template_registry_api.get_current_registry_template(
+                    request=request
+                )
                 # get all refinements for this template
                 refinements = refinement_api.get_all_filtered_by_template_hash(
                     template.hash
