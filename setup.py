@@ -23,7 +23,7 @@ chdir(normpath(join(abspath(__file__), pardir)))
 
 setup(
     name="core_module_fancy_tree_registry_app",
-    version="1.17.0",
+    version="1.18.0",
     description="Fancy Tree module for the parser core project",
     long_description=long_desc,
     author="NIST IT Lab",
