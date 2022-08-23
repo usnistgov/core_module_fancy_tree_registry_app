@@ -6,13 +6,15 @@ from core_main_registry_app.components.category import api as category_api
 from core_main_registry_app.components.refinement import api as refinement_api
 from core_main_registry_app.components.template import api as template_registry_api
 from core_main_registry_app.constants import CATEGORY_SUFFIX, UNSPECIFIED_LABEL
-from core_module_fancy_tree_registry_app.views.forms import RefinementForm
 from core_parser_app.tools.modules.exceptions import ModuleError
 from core_parser_app.tools.modules.views.module import AbstractModule
 from xml_utils.xsd_tree.xsd_tree import XSDTree
+from core_module_fancy_tree_registry_app.views.forms import RefinementForm
 
 
 class FancyTreeModule(AbstractModule):
+    """Fancy Tree Module"""
+
     is_managing_occurrences = True
 
     def __init__(self):
@@ -84,10 +86,10 @@ class FancyTreeModule(AbstractModule):
                                     category = categories.get(value=selected_value)
 
                                 reload_categories_id_list.append(category.id)
-                        except Exception as e:
+                        except Exception as exception:
                             raise ModuleError(
                                 "Something went wrong when reloading data from XML."
-                                + str(e)
+                                + str(exception)
                             )
 
                     # set data to reload in the form
@@ -103,9 +105,9 @@ class FancyTreeModule(AbstractModule):
                         )
                     },
                 )
-            except Exception as e:
+            except Exception as exception:
                 raise ModuleError(
-                    "Something went wrong when rendering the module: " + str(e)
+                    "Something went wrong when rendering the module: " + str(exception)
                 )
         else:
             raise ModuleError("xml_xpath was not found in request GET parameters.")
@@ -134,10 +136,10 @@ class FancyTreeModule(AbstractModule):
                             if not category.value.endswith(CATEGORY_SUFFIX)
                             else category.value[: -len(CATEGORY_SUFFIX)],
                         )
-                except Exception as e:
+                except Exception as exception:
                     raise ModuleError(
                         "Something went wrong during the processing of posted data: "
-                        + str(e)
+                        + str(exception)
                     )
 
         return data
