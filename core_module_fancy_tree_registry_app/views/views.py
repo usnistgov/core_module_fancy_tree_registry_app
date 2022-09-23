@@ -29,7 +29,7 @@ class FancyTreeModule(AbstractModule):
         if xml_xpath is not None:
             try:
                 # create unique field id from xpath
-                field_id = re.sub("[/.:\[\]]", "", xml_xpath)
+                field_id = re.sub(r"[/.:\[\]]", "", xml_xpath)
                 # split the xpath
                 split_xml_xpath = xml_xpath.split("/")
                 # get the last element of the xpath
