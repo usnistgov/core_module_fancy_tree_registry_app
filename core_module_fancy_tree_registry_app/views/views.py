@@ -4,7 +4,9 @@ import re
 
 from core_main_registry_app.components.category import api as category_api
 from core_main_registry_app.components.refinement import api as refinement_api
-from core_main_registry_app.components.template import api as template_registry_api
+from core_main_registry_app.components.template import (
+    api as template_registry_api,
+)
 from core_main_registry_app.constants import CATEGORY_SUFFIX, UNSPECIFIED_LABEL
 from core_parser_app.tools.modules.exceptions import ModuleError
 from core_parser_app.tools.modules.views.module import AbstractModule
@@ -19,7 +21,8 @@ class FancyTreeModule(AbstractModule):
 
     def __init__(self):
         AbstractModule.__init__(
-            self, scripts=["core_module_fancy_tree_registry_app/js/fancy_tree.js"]
+            self,
+            scripts=["core_module_fancy_tree_registry_app/js/fancy_tree.js"],
         )
 
     def _render_module(self, request):
@@ -62,13 +65,17 @@ class FancyTreeModule(AbstractModule):
                         RefinementForm.prefix, field_id
                     )
                     # get the categories for the current refinement
-                    categories = category_api.get_all_filtered_by_refinement_id(
-                        refinement.id
+                    categories = (
+                        category_api.get_all_filtered_by_refinement_id(
+                            refinement.id
+                        )
                     )
                     # Initialize list of categories id
                     reload_categories_id_list = []
                     # load list of data to reload from XML
-                    reload_data = XSDTree.fromstring("<root>" + self.data + "</root>")
+                    reload_data = XSDTree.fromstring(
+                        "<root>" + self.data + "</root>"
+                    )
                     # Iterate xml elements
                     for reload_data_element in list(reload_data):
                         try:
@@ -83,7 +90,9 @@ class FancyTreeModule(AbstractModule):
                                 if category.slug.startswith(UNSPECIFIED_LABEL):
                                     # get the parent category
                                     selected_value += CATEGORY_SUFFIX
-                                    category = categories.get(value=selected_value)
+                                    category = categories.get(
+                                        value=selected_value
+                                    )
 
                                 reload_categories_id_list.append(category.id)
                         except Exception as exception:
@@ -93,7 +102,9 @@ class FancyTreeModule(AbstractModule):
                             )
 
                     # set data to reload in the form
-                    reload_form_data[refinement_form_field] = reload_categories_id_list
+                    reload_form_data[
+                        refinement_form_field
+                    ] = reload_categories_id_list
 
                 return AbstractModule.render_template(
                     "core_module_fancy_tree_registry_app/fancy_tree.html",
@@ -107,10 +118,13 @@ class FancyTreeModule(AbstractModule):
                 )
             except Exception as exception:
                 raise ModuleError(
-                    "Something went wrong when rendering the module: " + str(exception)
+                    "Something went wrong when rendering the module: "
+                    + str(exception)
                 )
         else:
-            raise ModuleError("xml_xpath was not found in request GET parameters.")
+            raise ModuleError(
+                "xml_xpath was not found in request GET parameters."
+            )
 
     def _retrieve_data(self, request):
         data = ""
