@@ -1,2 +1,2 @@
-core-main-registry-app==2.11.*
-core-parser-app==2.11.*
+core-main-registry-app==2.12.*
+core-parser-app==2.12.*
