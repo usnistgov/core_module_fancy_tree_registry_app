@@ -1,5 +1,4 @@
-""" Unit tests for the `core_module_fancy_tree_registry_app.views.views` package.
-"""
+"""Unit tests for the `core_module_fancy_tree_registry_app.views.views` package."""
 
 from unittest import TestCase
 from unittest.mock import patch, MagicMock, call, Mock

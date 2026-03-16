@@ -1,5 +1,4 @@
-""" Fancy Tree module view
-"""
+"""Fancy Tree module view"""
 
 import re
 

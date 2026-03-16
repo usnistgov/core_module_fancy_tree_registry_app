@@ -1,5 +1,4 @@
-""" Url router for the fancy tree module
-"""
+"""Url router for the fancy tree module"""
 
 from django.urls import re_path
 
